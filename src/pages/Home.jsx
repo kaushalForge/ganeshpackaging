@@ -12,9 +12,9 @@ export default function Home() {
         <HomePage />
       </div>
       <ShowcaseGallery />
-      <Industries />
       <SectionOne />
-      <div className="container mx-auto px-6 py-4">
+      <Industries />
+      <div className="container mx-auto px-6">
         <Accordins />
       </div>
       <Process />

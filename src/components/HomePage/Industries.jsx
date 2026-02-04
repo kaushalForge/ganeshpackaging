@@ -1,57 +1,42 @@
 import React from "react";
+import products from "../../data/productData.json";
+import { Link } from "react-router";
 
-const industries = [
-  {
-    name: "Clothing Brands",
-    img: "https://images.unsplash.com/photo-1521335629791-ce4aec67dd53",
-  },
-  {
-    name: "Cosmetic Brands",
-    img: "https://images.unsplash.com/photo-1585386959984-a41552262b7b",
-  },
-  {
-    name: "Jewelry Shops",
-    img: "https://images.unsplash.com/photo-1617038260897-41a1f14a7fdf",
-  },
-  {
-    name: "Gift Stores",
-    img: "https://images.unsplash.com/photo-1607083206968-13611e3d76db",
-  },
-];
-
-// duplicate for seamless loop
-const items = [...industries, ...industries];
+// Pick first 8 products to showcase as industries images
+const items = products.slice(0, 8);
 
 export default function Industries() {
+  // Duplicate for seamless scroll
+  const marqueeItems = [...items, ...items];
+
   return (
-    <section className="py-24 bg-gray-50 overflow-hidden">
-      <h2 className="text-4xl font-semibold text-center mb-16">
-        Industries We Serve
-      </h2>
+    <section className="container mx-auto py-24 bg-gray-50 overflow-hidden">
+      <h2 className="text-4xl font-semibold text-center mb-16">Gallery</h2>
 
       <div className="relative overflow-hidden">
-        <div className="marquee flex gap-8 w-max">
-          {items.map((item, i) => (
-            <div
+        <div className="marquee flex gap-8 w-max mx-auto">
+          {marqueeItems.map((item, i) => (
+            <Link
+              to={`/product/${item.id}`}
               key={i}
-              className="w-[300px] h-60 flex-shrink-0 rounded-2xl overflow-hidden relative group"
+              className="w-[300px] h-60 flex-shrink-0 rounded-2xl overflow-hidden relative group cursor-pointer"
             >
               <img
-                src={`${item.img}?auto=format&fit=crop&w=800&q=80`}
+                src={item.image}
                 alt={item.name}
                 className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
               />
               <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                <h3 className="text-white text-xl font-semibold">
+                <h3 className="text-white text-xl font-semibold text-center px-2">
                   {item.name}
                 </h3>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
 
-      {/* internal styles (no css file needed) */}
+      {/* Inline styles for marquee */}
       <style>{`
         .marquee {
           animation: scroll 28s linear infinite;

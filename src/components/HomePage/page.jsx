@@ -13,37 +13,6 @@ export default function Page() {
 
       <p className="h-2 w-full border-t-2 mt-18"></p>
       {/* ================= CATEGORIES ================= */}
-      <section className="py-12 sm:py-12">
-        <h3 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-center tracking-tight mb-14">
-          Packaging Categories
-        </h3>
-
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {["T-Shirt Boxes", "Luxury Garment Boxes", "Eco Kraft Packaging"].map(
-            (cat, i) => (
-              <div
-                key={i}
-                className="group relative p-8 sm:p-10 rounded-3xl bg-white shadow-sm hover:shadow-xl transition duration-300"
-              >
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-orange-100/40 to-transparent opacity-0 group-hover:opacity-100 transition" />
-
-                <h4 className="text-xl sm:text-2xl font-semibold mb-3 relative z-10">
-                  {cat}
-                </h4>
-
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed relative z-10">
-                  Premium packaging designed for garment brands that enhances
-                  presentation and brand value.
-                </p>
-
-                <div className="mt-6 text-orange-600 font-medium relative z-10 text-sm sm:text-base">
-                  Explore category →
-                </div>
-              </div>
-            ),
-          )}
-        </div>
-      </section>
 
       <Carousel />
 
