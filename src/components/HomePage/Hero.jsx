@@ -1,60 +1,66 @@
+"use client";
+
 import React from "react";
-import heroBanner from "/public/images/HeroBanner.jpg";
+import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
-    <section className="pt-12 bg-white dark:bg-gray-900">
-      <div className="grid px-4 py-8 lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 min-h-[70vh] lg:min-h-[80vh]">
-        {/* Left Text */}
-        <div className="mr-auto place-self-center lg:col-span-7 flex flex-col justify-center">
-          <h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
-            Discover Your Style with Our Trendy Clothes
-          </h1>
+    <section className="relative bg-white min-h-[70vh] lg:min-h-[80vh] flex items-center justify-center lg:justify-start px-4 lg:px-20 py-18 lg:pt-28">
+      {/* Hero Content */}
+      <div className="max-w-2xl flex flex-col justify-center gap-6 text-center lg:text-left">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight"
+        >
+          Pure, Natural & Additive-Free Food Products
+        </motion.h1>
 
-          <p className="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-            Explore the latest fashion collections and premium clothing for men,
-            women, and kids. Find your perfect outfit and elevate your style
-            effortlessly.
-          </p>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-gray-700 text-lg"
+        >
+          High-quality ingredients sourced directly from trusted farms. Healthy,
+          fresh, and ready for your kitchen.
+        </motion.p>
 
-          <div className="flex flex-wrap gap-4">
-            <a
-              href="#"
-              className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
-            >
-              Shop Now
-              <svg
-                className="w-5 h-5 ml-2 -mr-1"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                />
-              </svg>
-            </a>
-
-            <a
-              href="/contact"
-              className="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-            >
-              Contact Us
-            </a>
-          </div>
-        </div>
-
-        {/* Right Image */}
-        <div className="hidden lg:block lg:col-span-5 h-full w-full">
-          <img
-            src={heroBanner}
-            className="h-full w-full object-cover rounded-xl"
-            alt="fashion collection"
-          />
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex flex-wrap justify-center lg:justify-start gap-4"
+        >
+          <a
+            href="/collection"
+            className="inline-flex items-center px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-500 font-medium transition-all transform hover:scale-105"
+          >
+            Shop Now
+          </a>
+          <a
+            href="/contact"
+            className="inline-flex items-center px-6 py-3 border border-gray-300 text-gray-900 rounded-lg hover:bg-gray-100 font-medium transition-all transform hover:scale-105"
+          >
+            Contact Us
+          </a>
+        </motion.div>
       </div>
+
+      {/* Optional Animated Shapes / Background */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.1 }}
+        transition={{ duration: 2 }}
+        className="absolute top-0 right-0 w-64 h-64 bg-orange-200 rounded-full filter blur-3xl animate-pulse"
+      />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.1 }}
+        transition={{ duration: 2, delay: 0.5 }}
+        className="absolute bottom-0 left-0 w-72 h-72 bg-yellow-200 rounded-full filter blur-3xl animate-pulse"
+      />
     </section>
   );
 };
