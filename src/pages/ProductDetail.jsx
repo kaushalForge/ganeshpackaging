@@ -6,14 +6,14 @@ export default function ProductDetail() {
   const { id } = useParams();
   const product = products.find((p) => p.id === id);
 
-  const [selectedColor, setSelectedColor] = useState(product?.colors[0] || "");
-  const [selectedSize, setSelectedSize] = useState(product?.sizes[0] || "");
   const [qty, setQty] = useState(1);
 
   if (!product) return <div className="pt-28 p-10">Product not found</div>;
 
   // WhatsApp business link with prefilled message
-  const whatsappLink = "";
+  const whatsappLink = `https://wa.me/<YOUR_NUMBER>?text=I%20would%20like%20to%20order%20${qty}%20${encodeURIComponent(
+    product.name
+  )}`;
 
   return (
     <main className="bg-white min-h-screen pt-24 px-6 lg:px-20">
@@ -49,54 +49,10 @@ export default function ProductDetail() {
             <span className="text-3xl font-bold text-orange-600">
               Rs. {product.price}
             </span>
-            {product.new && (
-              <span className="text-sm bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
-                New
-              </span>
-            )}
           </div>
 
           {/* Description */}
           <p className="text-gray-600 leading-relaxed">{product.description}</p>
-
-          {/* Color Picker */}
-          <div className="mt-4">
-            <h3 className="text-sm font-semibold mb-2">Color:</h3>
-            <div className="flex gap-3">
-              {product.colors.map((color) => (
-                <button
-                  key={color}
-                  onClick={() => setSelectedColor(color)}
-                  className={`w-8 h-8 rounded-full border-2 ${
-                    selectedColor === color
-                      ? "border-gray-900"
-                      : "border-gray-300"
-                  }`}
-                  style={{ backgroundColor: color }}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Size Picker */}
-          <div className="mt-4">
-            <h3 className="text-sm font-semibold mb-2">Size:</h3>
-            <div className="flex gap-3">
-              {product.sizes.map((size) => (
-                <button
-                  key={size}
-                  onClick={() => setSelectedSize(size)}
-                  className={`px-4 py-2 border rounded-lg ${
-                    selectedSize === size
-                      ? "border-purple-600 text-purple-600"
-                      : "border-gray-300 text-gray-700"
-                  }`}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
-          </div>
 
           {/* Quantity & WhatsApp Button */}
           <div className="flex items-center gap-4 mt-6">

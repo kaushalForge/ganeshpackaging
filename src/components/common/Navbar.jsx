@@ -2,12 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { Menu } from "lucide-react";
 import { FiSearch } from "react-icons/fi";
@@ -49,11 +44,12 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full z-50 border-b bg-white/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
-        <Link
-          to="/"
-          className="text-2xl font-bold tracking-wide text-orange-600"
-        >
-          GaneshPackaging
+        <Link to="/" className="flex items-center">
+          <img
+            src="/images/ganeshpackaginglogo.png"
+            alt="Logo"
+            className="h-18 w-20 object-contain"
+          />
         </Link>
 
         {/* Desktop Links */}
@@ -150,7 +146,7 @@ export default function Navbar() {
                 ))}
               </ul>
 
-              {/* Optional: Add social buttons or CTA */}
+              {/* Optional Contact Button */}
               <div className="mt-auto">
                 <Button
                   asChild
