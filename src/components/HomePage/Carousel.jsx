@@ -2,26 +2,26 @@ import React, { useEffect, useState } from "react";
 
 const slides = [
   {
-    img: "https://tecdn.b-cdn.net/img/Photos/Slides/img%20(123).jpg",
-    title: "First slide label",
-    desc: "Some representative placeholder content for the first slide.",
+    img: "/images/banner1.jpg",
+    title: "Organic Grains & Flours",
+    desc: "From wholesome wheat to nutrient-rich flours, enjoy quality that nurtures your family.",
   },
   {
-    img: "https://tecdn.b-cdn.net/img/Photos/Slides/img%20(124).jpg",
-    title: "Second slide label",
-    desc: "Some representative placeholder content for the second slide.",
+    img: "/images/banner2.jpg",
+    title: "Pure Honey & Natural Goodness",
+    desc: "Discover our premium, additive-free honey, sourced directly from the finest farms.",
   },
   {
-    img: "https://tecdn.b-cdn.net/img/Photos/Slides/img%20(125).jpg",
-    title: "Third slide label",
-    desc: "Some representative placeholder content for the third slide.",
+    img: "/images/banner3.jpg",
+    title: "Add Flavours with Us",
+    desc: "Fresh, aromatic, and natural masala items to make every dish flavorful and healthy.",
   },
 ];
 
 const Carousel = () => {
   const [current, setCurrent] = useState(0);
 
-  // Auto slide
+  // Auto slide every 5 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       nextSlide();
@@ -51,12 +51,16 @@ const Carousel = () => {
               alt={slide.title}
               className="w-full h-[500px] object-cover"
             />
-            <div className="absolute inset-0 bg-black/50" />
+            <div className="absolute inset-0 bg-black/40" />
 
             {/* Caption */}
             <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-center text-white max-w-2xl px-6">
-              <h5 className="text-2xl font-semibold">{slide.title}</h5>
-              <p className="mt-2 text-sm opacity-90">{slide.desc}</p>
+              <h5 className="text-2xl sm:text-3xl md:text-4xl font-semibold">
+                {slide.title}
+              </h5>
+              <p className="mt-2 text-sm sm:text-base opacity-90">
+                {slide.desc}
+              </p>
             </div>
           </div>
         ))}
@@ -78,7 +82,7 @@ const Carousel = () => {
       {/* Prev */}
       <button
         onClick={prevSlide}
-        className="absolute left-0 top-0 h-full w-[15%] flex items-center justify-center text-white opacity-60 hover:opacity-100 transition"
+        className="absolute left-0 top-0 h-full w-[15%] flex items-center justify-center text-white opacity-60 hover:opacity-100 transition text-3xl"
       >
         ❮
       </button>
@@ -86,7 +90,7 @@ const Carousel = () => {
       {/* Next */}
       <button
         onClick={nextSlide}
-        className="absolute right-0 top-0 h-full w-[15%] flex items-center justify-center text-white opacity-60 hover:opacity-100 transition"
+        className="absolute right-0 top-0 h-full w-[15%] flex items-center justify-center text-white opacity-60 hover:opacity-100 transition text-3xl"
       >
         ❯
       </button>

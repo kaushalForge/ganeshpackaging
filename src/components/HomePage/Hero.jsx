@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
-    <section className="relative bg-white min-h-[70vh] lg:min-h-[80vh] flex items-center justify-center lg:justify-start px-4 lg:px-20 py-18 lg:pt-28">
+    <section className="container mx-auto relative bg-white flex items-center lg:items-start justify-center lg:justify-start px-4 lg:px-20 pt-18 lg:pt-24">
       {/* Hero Content */}
-      <div className="max-w-2xl flex flex-col justify-center gap-6 text-center lg:text-left">
+      <div className="flex flex-col justify-center gap-6 text-center lg:text-left">
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

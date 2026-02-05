@@ -52,22 +52,6 @@ export default function Page() {
           </div>
         </div>
       </section>
-
-      {/* ================= CTA ================= */}
-      <section className="py-8 sm:py-4 bg-white">
-        <div className="rounded-3xl border border-gray-200 bg-gradient-to-br from-orange-50 to-white p-10 sm:p-14 text-center">
-          <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-gray-900">
-            Strong Packaging Builds Strong Brands
-          </h3>
-          <p className="mt-4 sm:mt-5 text-gray-600 text-sm sm:text-lg">
-            Let’s create packaging that truly represents your brand identity.
-          </p>
-
-          <button className="mt-8 px-7 py-3 rounded-xl bg-orange-600 text-white font-medium hover:bg-orange-500 transition">
-            Get Started
-          </button>
-        </div>
-      </section>
     </div>
   );
 }

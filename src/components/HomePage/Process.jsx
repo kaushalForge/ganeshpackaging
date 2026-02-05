@@ -4,7 +4,7 @@ const steps = ["Harvesting", "Packaging", "To your door step"];
 
 export default function Process() {
   return (
-    <section className="py-12 flex items-center justify-center flex-col w-full px-6">
+    <section className="container mx-auto py-12 flex items-center justify-center flex-col w-full px-6">
       <h2 className="text-4xl font-semibold text-center mb-16">
         Our Simple Process
       </h2>
