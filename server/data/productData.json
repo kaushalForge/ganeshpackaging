@@ -1,0 +1,72 @@
+[
+  {
+    "id": "c1",
+    "name": "Honeys",
+    "description": "Pure natural honey, rich in flavor and nutrients. Perfect for daily consumption or as a sweetener.",
+    "price": 1200,
+    "image": "https://images.unsplash.com/photo-1587049352851-8d4e89133924?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    "id": "c2",
+    "name": "Besar",
+    "description": "Fine, high-quality turmeric powder (Besar) ideal for cooking, health drinks, and traditional remedies.",
+    "price": 2400,
+    "image": "https://images.unsplash.com/photo-1702041295331-840d4d9aa7c9?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    "id": "c3",
+    "name": "Sakhar",
+    "description": "Refined sugar, ideal for cooking, baking, and beverages. Sweetens your recipes naturally.",
+    "price": 1800,
+    "image": "https://images.unsplash.com/photo-1613228295977-3b5ac7533b36?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  },
+  {
+    "id": "c4",
+    "name": "Pickle (Aachar)",
+    "description": "Traditional homemade pickle with authentic spices. Adds a tangy flavor to meals.",
+    "price": 2000,
+    "image": "https://i.pinimg.com/1200x/90/34/a6/9034a6fb65157731b22cb4c7bc66713a.jpg"
+  },
+  {
+    "id": "c5",
+    "name": "Satu",
+    "description": "Nutritious roasted barley flour (Satu), perfect for drinks, porridge, and healthy snacks.",
+    "price": 1500,
+    "image": "https://sewapoint.com/image-categories/image-1719821764774-77443865.webp"
+  },
+  {
+    "id": "c6",
+    "name": "Maize Rice",
+    "description": "Premium maize rice, rich in fiber and nutrients. Ideal for everyday meals and traditional dishes.",
+    "price": 3200,
+    "image": "https://biratsuppliers.thulo.com.np/assets/tenant/uploads/media-uploader/biratsuppliers/grid/grid-20240626111219_768914602.jpg"
+  },
+  {
+    "id": "c7",
+    "name": "Kodo ko pitho",
+    "description": "Organic finger millet flour (Kodo), perfect for healthy porridge, baking, and local recipes.",
+    "price": 900,
+    "image": "https://nepalorganicghar.com/wp-content/uploads/2025/08/61dWteRen4L._UF10001000_QL80_.jpg"
+  },
+  {
+    "id": "c8",
+    "name": "Phapar ko pitho",
+    "description": "Buckwheat flour (Phapar) suitable for pancakes, rotis, and nutritious meals. Gluten-free options.",
+    "price": 2200,
+    "image": "https://sewapoint.com/image-categories/image-1727175649600-faparkopitho.webp"
+  },
+  {
+    "id": "c9",
+    "name": "Strawberrys",
+    "description": "This is a strawberry",
+    "price": 100,
+    "image": "https://static.vecteezy.com/system/resources/thumbnails/057/068/323/small/single-fresh-red-strawberry-on-table-green-background-food-fruit-sweet-macro-juicy-plant-image-photo.jpg"
+  },
+  {
+    "id": "c1770364112678",
+    "name": "tests",
+    "description": "test",
+    "price": 2344,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zwhySGCEBxRRFYIcQgvOLOpRGqrT3d7Qng&s"
+  }
+]

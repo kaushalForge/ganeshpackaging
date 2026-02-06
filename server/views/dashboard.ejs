@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+
+  <div class="max-w-7xl mx-auto px-4 py-8">
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Product Dashboard</h1>
+
+      <div class="flex gap-3">
+        <a href="/admin/add"
+           class="bg-black text-white px-4 py-2 rounded-lg text-sm font-medium">
+          + Add
+        </a>
+
+        <a
+  href="/admin/logout"
+  onclick="localStorage.removeItem('adminLoggedIn')"
+  class="bg-red-500 text-white px-4 py-2 rounded-lg text-sm font-medium"
+>
+  Logout
+</a>
+
+      </div>
+    </div>
+
+    <!-- ================= MOBILE CARDS ================= -->
+    <div class="grid gap-4 sm:hidden">
+      <% products.forEach(product => { %>
+        <div class="bg-white rounded-xl shadow p-4 flex gap-4">
+
+          <img src="<%= product.image %>"
+               class="w-24 h-24 object-cover rounded-lg border" />
+
+          <div class="flex-1 flex flex-col justify-between">
+            <div>
+              <h2 class="font-semibold text-gray-800"><%= product.name %></h2>
+              <p class="text-sm text-gray-600 mt-1">
+                Rs <%= product.price %>
+              </p>
+              <p class="text-xs text-gray-500 mt-2 line-clamp-2">
+                <%= product.description %>
+              </p>
+            </div>
+
+            <div class="flex gap-3 mt-3 text-sm font-semibold">
+              <a href="/admin/edit/<%= product.id %>"
+                 class="flex-1 text-center bg-blue-500 text-white py-1 rounded-md">
+                Edit
+              </a>
+
+              <a href="/admin/delete/<%= product.id %>"
+                 onclick="return confirm('Delete this product?')"
+                 class="flex-1 text-center bg-red-500 text-white py-1 rounded-md">
+                Delete
+              </a>
+            </div>
+          </div>
+
+        </div>
+      <% }) %>
+    </div>
+
+    <!-- ================= DESKTOP TABLE ================= -->
+    <div class="hidden sm:block bg-white rounded-xl shadow overflow-hidden mt-6">
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm text-left">
+          <thead class="bg-gray-100 text-gray-600 uppercase text-xs">
+            <tr>
+              <th class="px-6 py-4">Image</th>
+              <th class="px-6 py-4">Name</th>
+              <th class="px-6 py-4">Price</th>
+              <th class="px-6 py-4">Description</th>
+              <th class="px-6 py-4">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody class="divide-y divide-gray-200">
+            <% products.forEach(product => { %>
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4">
+                  <img src="<%= product.image %>"
+                       class="w-16 h-16 object-cover rounded-lg border"/>
+                </td>
+
+                <td class="px-6 py-4 font-medium"><%= product.name %></td>
+
+                <td class="px-6 py-4">Rs <%= product.price %></td>
+
+                <td class="px-6 py-4 max-w-xs truncate">
+                  <%= product.description.substring(0, 80) %>...
+                </td>
+
+                <td class="px-6 py-4">
+                  <div class="flex gap-3 text-sm font-semibold">
+                    <a href="/admin/edit/<%= product.id %>" class="text-blue-600">Edit</a>
+                    <a href="/admin/delete/<%= product.id %>"
+                       onclick="return confirm('Delete this product?')"
+                       class="text-red-600">
+                      Delete
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
