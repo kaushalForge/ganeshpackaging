@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ganesh Packaging</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+  <!-- NAVBAR -->
+  <nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-gray-800">Ganesh Packaging</h1>
+
+      <div class="flex gap-4">
+        <% if (!loggedIn) { %>
+          <a href="/admin"
+             class="px-4 py-2 bg-black text-white rounded hover:bg-gray-800 transition">
+            Admin Login
+          </a>
+        <% } else { %>
+          <a href="/admin/dashboard"
+             class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+            Dashboard
+          </a>
+
+          <a href="/admin/add"
+             class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+            Add Product
+          </a>
+
+          <a href="/admin/logout"
+             class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition">
+            Logout
+          </a>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="flex-grow flex items-center justify-center px-6">
+    <div class="text-center max-w-3xl">
+      <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+        Premium Packaging Solutions
+      </h2>
+      <p class="text-gray-600 text-lg mb-8">
+        We provide high-quality packaging products crafted with durability and
+        precision. Explore our latest collection and manage your products easily.
+      </p>
+
+      <div class="flex justify-center gap-6 flex-wrap">
+        <a href="/api/products"
+           class="px-6 py-3 bg-black text-white rounded-lg shadow hover:bg-gray-800 transition">
+          View Products API
+        </a>
+
+        <% if (loggedIn) { %>
+          <a href="/admin/dashboard"
+             class="px-6 py-3 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition">
+            Go to Admin Panel
+          </a>
+        <% } %>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-white shadow-inner py-4 text-center text-gray-500">
+    © <%= new Date().getFullYear() %> Ganesh Packaging. All rights reserved.
+  </footer>
+
+</body>
+</html>
