@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edit Product</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
   <body class="bg-gray-50 min-h-screen">
@@ -27,12 +27,16 @@
             alt="<%= product.name %>"
             class="w-full h-52 object-cover rounded-xl border"
             id="previewImage"
+            onerror="
+              this.src =
+                'https://via.placeholder.com/600x300?text=Image+Preview'
+            "
           />
         </div>
 
         <form
           method="POST"
-          action="/admin/edit/<%= product.id %>"
+          action="/admin/edit/<%= product._id %>"
           class="space-y-5"
         >
           <!-- Name -->

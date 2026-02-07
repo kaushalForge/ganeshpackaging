@@ -122,6 +122,8 @@ app.post("/admin/edit/:id", requireAuth, (req, res) => {
   res.redirect("/admin/dashboard");
 });
 
+
+
 // ---------- DELETE PRODUCT ----------
 app.post("/admin/delete/:id", requireAuth, (req, res) => {
   const products = readProducts().filter((p) => p.id !== req.params.id);
