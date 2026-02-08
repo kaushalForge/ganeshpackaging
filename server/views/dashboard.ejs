@@ -21,14 +21,11 @@
           + Add
         </a>
 
-        <a
-  href="/admin/logout"
-  onclick="localStorage.removeItem('adminLoggedIn')"
-  class="bg-red-500 text-white px-4 py-2 rounded-lg text-sm font-medium"
->
-  Logout
-</a>
-
+        <a href="/admin/logout"
+           onclick="localStorage.removeItem('adminLoggedIn')"
+           class="bg-red-500 text-white px-4 py-2 rounded-lg text-sm font-medium">
+          Logout
+        </a>
       </div>
     </div>
 
@@ -52,16 +49,20 @@
             </div>
 
             <div class="flex gap-3 mt-3 text-sm font-semibold">
+              <!-- Edit -->
               <a href="/admin/edit/<%= product.id %>"
                  class="flex-1 text-center bg-blue-500 text-white py-1 rounded-md">
                 Edit
               </a>
 
-              <a href="/admin/delete/<%= product.id %>"
-                 onclick="return confirm('Delete this product?')"
-                 class="flex-1 text-center bg-red-500 text-white py-1 rounded-md">
-                Delete
-              </a>
+              <!-- Delete -->
+              <form method="POST" action="/admin/delete/<%= product.id %>" 
+                    onsubmit="return confirm('Delete this product?')"
+                    class="flex-1">
+                <button type="submit" class="text-center bg-red-500 text-white py-1 rounded-md w-full">
+                  Delete
+                </button>
+              </form>
             </div>
           </div>
 
@@ -101,12 +102,16 @@
 
                 <td class="px-6 py-4">
                   <div class="flex gap-3 text-sm font-semibold">
+                    <!-- Edit -->
                     <a href="/admin/edit/<%= product.id %>" class="text-blue-600">Edit</a>
-                    <a href="/admin/delete/<%= product.id %>"
-                       onclick="return confirm('Delete this product?')"
-                       class="text-red-600">
-                      Delete
-                    </a>
+
+                    <!-- Delete -->
+                    <form method="POST" action="/admin/delete/<%= product.id %>" 
+                          onsubmit="return confirm('Delete this product?')">
+                      <button type="submit" class="text-red-600 bg-transparent">
+                        Delete
+                      </button>
+                    </form>
                   </div>
                 </td>
               </tr>
