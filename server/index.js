@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
@@ -5,13 +6,19 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 6000;
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 // ---------- PATH ----------
 const filePath = path.join(__dirname, "data", "productData.json");
 
 // ---------- MIDDLEWARE ----------
-app.use(cors());
+app.use(
+  cors({
+    origin: FRONTEND_URL,
+    credentials: true,
+  }),
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
@@ -19,8 +26,8 @@ app.use(cookieParser());
 app.set("view engine", "ejs");
 
 // ---------- STATIC LOGIN ----------
-const ADMIN_ID = "admin";
-const ADMIN_PASS = "1234";
+const ADMIN_ID = process.env.ADMIN_ID;
+const ADMIN_PASS = process.env.ADMIN_PASSWORD;
 
 // ---------- HELPERS ----------
 const readProducts = () =>
@@ -121,8 +128,6 @@ app.post("/admin/edit/:id", requireAuth, (req, res) => {
   writeProducts(products);
   res.redirect("/admin/dashboard");
 });
-
-
 
 // ---------- DELETE PRODUCT ----------
 app.post("/admin/delete/:id", requireAuth, (req, res) => {
