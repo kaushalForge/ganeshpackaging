@@ -1,3 +1,4 @@
+// server.js
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -16,8 +17,8 @@ const filePath = path.join(__dirname, "data", "productData.json");
 app.use(
   cors({
     origin: FRONTEND_URL,
-    credentials: true,
-  }),
+    credentials: true, // allow cookies
+  })
 );
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -39,41 +40,44 @@ const writeProducts = (data) =>
 // ---------- AUTH MIDDLEWARE ----------
 const requireAuth = (req, res, next) => {
   if (req.cookies.ganeshPackaging === "true") return next();
-  return res.redirect("/admin");
+  // Redirect to frontend login page in production
+  return res.redirect(`${FRONTEND_URL}/admin`);
 };
 
+// ---------- ROUTES ----------
+
+// Home route (optional)
 app.get("/", (req, res) => {
   res.render("home", {
     loggedIn: req.cookies.ganeshPackaging === "true",
   });
 });
 
-// ---------- PUBLIC API ----------
+// Public API
 app.get("/api/products", (req, res) => {
   res.json(readProducts());
 });
 
-// ---------- LOGIN PAGE ----------
+// ---------- LOGIN ----------
 app.get("/admin", (req, res) => {
   if (req.cookies.ganeshPackaging === "true")
-    return res.redirect("/admin/dashboard");
+    return res.redirect(`${FRONTEND_URL}/admin/dashboard`);
   res.render("login");
 });
 
-// ---------- LOGIN ----------
 app.post("/admin/login", (req, res) => {
   const { id, password } = req.body;
 
   if (id === ADMIN_ID && password === ADMIN_PASS) {
     res.cookie("ganeshPackaging", "true", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // https only in prod
-      sameSite: "lax",
-      path: "/", // whole site
+      secure: process.env.NODE_ENV === "production", // HTTPS only in prod
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      path: "/",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
-    return res.redirect("/admin/dashboard");
+    return res.redirect(`${FRONTEND_URL}/admin/dashboard`);
   }
 
   res.send("Wrong credentials");
@@ -101,7 +105,7 @@ app.post("/admin/add", requireAuth, (req, res) => {
   });
 
   writeProducts(products);
-  res.redirect("/admin/dashboard");
+  res.redirect(`${FRONTEND_URL}/admin/dashboard`);
 });
 
 // ---------- EDIT PRODUCT ----------
@@ -122,24 +126,28 @@ app.post("/admin/edit/:id", requireAuth, (req, res) => {
           price: Number(req.body.price),
           image: req.body.image,
         }
-      : p,
+      : p
   );
 
   writeProducts(products);
-  res.redirect("/admin/dashboard");
+  res.redirect(`${FRONTEND_URL}/admin/dashboard`);
 });
 
 // ---------- DELETE PRODUCT ----------
 app.post("/admin/delete/:id", requireAuth, (req, res) => {
   const products = readProducts().filter((p) => p.id !== req.params.id);
   writeProducts(products);
-  res.redirect("/admin/dashboard");
+  res.redirect(`${FRONTEND_URL}/admin/dashboard`);
 });
 
 // ---------- LOGOUT ----------
 app.get("/admin/logout", (req, res) => {
-  res.clearCookie("ganeshPackaging", { path: "/" });
-  res.redirect("/admin");
+  res.clearCookie("ganeshPackaging", {
+    path: "/",
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  });
+  res.redirect(`${FRONTEND_URL}/admin`);
 });
 
 // ---------- START SERVER ----------
