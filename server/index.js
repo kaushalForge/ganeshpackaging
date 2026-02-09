@@ -12,7 +12,8 @@ const FRONTEND_URL = process.env.FRONTEND_URL;
 const API_URL = process.env.API_URL;
 
 // ---------- PATHS ----------
-const filePath = path.join(process.cwd(), "data", "productData.json");
+const filePath = path.join(__dirname, "data", "productData.json");
+console.log(filePath);
 
 // ---------- MIDDLEWARE ----------
 app.use(
