@@ -1,4 +1,4 @@
-// server.js
+// index.js (Vercel-ready Express server)
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -7,12 +7,14 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 
 const app = express();
-const PORT = process.env.PORT || 6000;
+
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const API_URL = process.env.API_URL;
 
-// ---------- PATH ----------
-const filePath = path.join(__dirname, "data", "productData.json");
+// ---------- PATHS ----------
+const filePath = path.join(process.cwd(), "data", "productData.json"); // Vercel-safe
+const viewsPath = path.join(process.cwd(), "views"); // EJS views
+const publicPath = path.join(process.cwd(), "public"); // Static files
 
 // ---------- MIDDLEWARE ----------
 app.use(
@@ -21,27 +23,44 @@ app.use(
     credentials: true, // allow cookies
   }),
 );
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("public"));
 app.use(cookieParser());
+
+// ---------- VIEWS & STATIC ----------
 app.set("view engine", "ejs");
+app.set("views", viewsPath);
+app.use("/public", express.static(publicPath)); // serve public files
 
 // ---------- STATIC LOGIN ----------
 const ADMIN_ID = process.env.ADMIN_ID;
 const ADMIN_PASS = process.env.ADMIN_PASSWORD;
 
 // ---------- HELPERS ----------
-const readProducts = () =>
-  fs.existsSync(filePath) ? JSON.parse(fs.readFileSync(filePath, "utf-8")) : [];
+const readProducts = () => {
+  try {
+    return fs.existsSync(filePath)
+      ? JSON.parse(fs.readFileSync(filePath, "utf-8"))
+      : [];
+  } catch (err) {
+    console.error("Failed to read products:", err.message);
+    return [];
+  }
+};
 
-const writeProducts = (data) =>
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+// ⚠️ File writes will NOT persist on Vercel — temporary only
+const writeProducts = (data) => {
+  try {
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+  } catch (err) {
+    console.warn("Write failed on Vercel (expected):", err.message);
+  }
+};
 
 // ---------- AUTH MIDDLEWARE ----------
 const requireAuth = (req, res, next) => {
   if (req.cookies.ganeshPackaging === "true") return next();
-  // Redirect to frontend login page in production
   return res.redirect(`${API_URL}/admin`);
 };
 
@@ -72,7 +91,7 @@ app.post("/admin/login", (req, res) => {
   if (id === ADMIN_ID && password === ADMIN_PASS) {
     res.cookie("ganeshPackaging", "true", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // HTTPS only in prod
+      secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       path: "/",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
@@ -151,7 +170,10 @@ app.get("/admin/logout", (req, res) => {
   res.redirect(`${API_URL}/admin`);
 });
 
-// ---------- START SERVER ----------
+// ---------- VERCEL EXPORT ----------
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server started at port: ${PORT}`);
 });
+
+module.exports = app;
