@@ -9,76 +9,60 @@ export default function Contact() {
           Get In Touch
         </h1>
         <p className="mt-6 text-gray-600 max-w-2xl mx-auto">
-          Have questions, custom packaging needs, or bulk orders? We’re here to
-          help your brand with the right packaging solutions.
+          Reach us directly through the contact options below. We’re always
+          ready to help you.
         </p>
       </section>
 
-      {/* ================= CONTENT ================= */}
+      {/* ================= CONTACT DETAILS ONLY ================= */}
       <section className="py-20 px-6">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
-          {/* -------- LEFT : CONTACT INFO -------- */}
-          <div>
-            <h2 className="text-2xl font-semibold mb-8">Contact Details</h2>
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-semibold mb-10 text-center">
+            Contact Details
+          </h2>
 
-            <div className="space-y-6 text-gray-600">
-              <div>
-                <p className="font-medium text-gray-800">Address</p>
-                <p>Birtamode, Jhapa, Nepal</p>
-              </div>
-
-              <div>
-                <p className="font-medium text-gray-800">Phone</p>
-                <p>+977 98XXXXXXXX</p>
-              </div>
-
-              <div>
-                <p className="font-medium text-gray-800">Email</p>
-                <p>your@email.com</p>
-              </div>
-
-              <div>
-                <p className="font-medium text-gray-800">Business Hours</p>
-                <p>Sunday – Friday : 9:00 AM – 6:00 PM</p>
-              </div>
-            </div>
-          </div>
-
-          {/* -------- RIGHT : CONTACT FORM -------- */}
-          <div className="bg-gray-50 p-8 rounded-2xl border border-gray-200">
-            <h2 className="text-2xl font-semibold mb-8">Send a Message</h2>
-
-            <form className="space-y-6">
-              <input
-                type="text"
-                placeholder="Your Name"
-                className="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:border-orange-500"
-              />
-
-              <input
-                type="email"
-                placeholder="Your Email"
-                className="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:border-orange-500"
-              />
-
-              <textarea
-                rows="5"
-                placeholder="Your Message"
-                className="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:border-orange-500"
-              ></textarea>
-
-              <button
-                type="submit"
-                className="w-full py-3 rounded-lg bg-orange-600 text-white font-medium hover:bg-orange-500 transition"
+          <div className="space-y-8 text-gray-700 text-center">
+            {/* Phone */}
+            <div className="p-6 rounded-2xl border border-gray-200">
+              <p className="font-medium text-gray-900 mb-2">Phone</p>
+              <a
+                href="tel:+97798XXXXXXXX"
+                className="text-orange-600 font-medium"
               >
-                Send Message
-              </button>
-            </form>
+                +977 98XXXXXXXX
+              </a>
+            </div>
+
+            {/* WhatsApp */}
+            <div className="p-6 rounded-2xl border border-gray-200">
+              <p className="font-medium text-gray-900 mb-2">WhatsApp</p>
+              <a
+                href="https://wa.me/97798XXXXXXXX"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-orange-600 font-medium"
+              >
+                Chat on WhatsApp
+              </a>
+            </div>
+
+            {/* Messenger */}
+            <div className="p-6 rounded-2xl border border-gray-200">
+              <p className="font-medium text-gray-900 mb-2">Messenger</p>
+              <a
+                href="https://m.me/yourpageusername"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-orange-600 font-medium"
+              >
+                Message us on Messenger
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ================= GOOGLE MAP ================= */}
+      {/* ================= GOOGLE MAP (unchanged) ================= */}
       <section className="px-6 pb-24">
         <div className="rounded-3xl overflow-hidden border border-gray-200 shadow-sm">
           <iframe
