@@ -12,9 +12,7 @@ const FRONTEND_URL = process.env.FRONTEND_URL;
 const API_URL = process.env.API_URL;
 
 // ---------- PATHS ----------
-const filePath = path.join(process.cwd(), "data", "productData.json"); // Vercel-safe
-const viewsPath = path.join(process.cwd(), "views"); // EJS views
-// const publicPath = path.join(process.cwd(), "public"); // Static files
+const filePath = path.join(process.cwd(), "data", "productData.json");
 
 // ---------- MIDDLEWARE ----------
 app.use(
@@ -30,8 +28,7 @@ app.use(cookieParser());
 
 // ---------- VIEWS & STATIC ----------
 app.set("view engine", "ejs");
-app.set("views", viewsPath);
-// app.use("/public", express.static(publicPath)); // serve public files
+app.set("views", path.join(__dirname, "views"));
 
 // ---------- STATIC LOGIN ----------
 const ADMIN_ID = process.env.ADMIN_ID;
