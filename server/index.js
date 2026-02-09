@@ -14,7 +14,7 @@ const API_URL = process.env.API_URL;
 // ---------- PATHS ----------
 const filePath = path.join(process.cwd(), "data", "productData.json"); // Vercel-safe
 const viewsPath = path.join(process.cwd(), "views"); // EJS views
-const publicPath = path.join(process.cwd(), "public"); // Static files
+// const publicPath = path.join(process.cwd(), "public"); // Static files
 
 // ---------- MIDDLEWARE ----------
 app.use(
@@ -31,7 +31,7 @@ app.use(cookieParser());
 // ---------- VIEWS & STATIC ----------
 app.set("view engine", "ejs");
 app.set("views", viewsPath);
-app.use("/public", express.static(publicPath)); // serve public files
+// app.use("/public", express.static(publicPath)); // serve public files
 
 // ---------- STATIC LOGIN ----------
 const ADMIN_ID = process.env.ADMIN_ID;
@@ -172,8 +172,11 @@ app.get("/admin/logout", (req, res) => {
 
 // ---------- VERCEL EXPORT ----------
 const PORT = process.env.PORT;
-app.listen(PORT, () => {
-  console.log(`Server started at port: ${PORT}`);
-});
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 6000;
+  app.listen(PORT, () =>
+    console.log(`Server running at http://localhost:${PORT}`),
+  );
+}
 
 module.exports = app;
