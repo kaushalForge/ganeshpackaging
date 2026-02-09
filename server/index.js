@@ -13,7 +13,6 @@ const API_URL = process.env.API_URL;
 
 // ---------- PATHS ----------
 const filePath = path.join(__dirname, "data", "productData.json");
-console.log(filePath);
 
 // ---------- MIDDLEWARE ----------
 app.use(
