@@ -2,7 +2,6 @@ import React from "react";
 import { useProducts } from "../../context/ProductContext";
 import { Link } from "react-router";
 
-
 export default function Industries() {
   // Duplicate for seamless scroll
   const { products } = useProducts();
@@ -17,12 +16,12 @@ export default function Industries() {
         <div className="marquee flex gap-8 w-max mx-auto">
           {marqueeItems.map((item, i) => (
             <Link
-              to={`/product/${item.id}`}
+              to={`/product/${item._id}`}
               key={i}
               className="w-[300px] h-60 flex-shrink-0 rounded-2xl overflow-hidden relative group cursor-pointer"
             >
               <img
-                src={item.image}
+                src={item.images?.[0]}
                 alt={item.name}
                 className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
               />

@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useProducts } from "../context/ProductContext";
+import { useEffect, useState } from "react";
 import {
   FaWhatsapp,
   FaFacebookMessenger,
@@ -9,9 +10,18 @@ import {
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const { products } = useProducts();
-  const product = products.find((p) => p.id === id);
+  const { products, loading } = useProducts();
+  const product = products.find((p) => p._id === id);
 
+  const [mainImage, setMainImage] = useState(product?.images?.[0]);
+
+  useEffect(() => {
+    if (product?.images?.length) {
+      setMainImage(product.images[0]);
+    }
+  }, [product]);
+
+  if (loading) return <div className="pt-28 p-10">Loading product...</div>;
   if (!product) return <div className="pt-28 p-10">Product not found</div>;
 
   return (
@@ -29,15 +39,39 @@ export default function ProductDetail() {
       </nav>
 
       <div className="lg:flex lg:gap-16">
-        {/* Product Image */}
-        <div className="lg:w-1/2 flex justify-center">
-          <div className="overflow-hidden rounded-3xl shadow-2xl w-full max-w-lg">
+        {/* Product Images */}
+        <div className="lg:w-1/2 flex flex-col gap-4">
+          {/* Main Image */}
+          <div className="overflow-hidden rounded-3xl shadow-2xl w-full max-w-lg mx-auto">
             <img
-              src={product.image}
+              src={mainImage}
               alt={product.name}
               className="w-full h-full object-cover transform transition-transform duration-500 hover:scale-105"
             />
           </div>
+
+          {/* Thumbnail gallery */}
+          {product.images && product.images.length > 1 && (
+            <div className="flex gap-4 overflow-x-auto mt-4">
+              {product.images.map((img, index) => (
+                <div
+                  key={index}
+                  onClick={() => setMainImage(img)}
+                  className={`flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden shadow-lg cursor-pointer transform transition-all ${
+                    img === mainImage
+                      ? "ring-4 ring-orange-500"
+                      : "hover:scale-105"
+                  }`}
+                >
+                  <img
+                    src={img}
+                    alt={`${product.name} ${index + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Info Panel */}
@@ -63,7 +97,9 @@ export default function ProductDetail() {
             <div className="flex flex-wrap gap-4">
               {/* WhatsApp */}
               <a
-                href={`https://wa.me/<YOUR_NUMBER>?text=I%20would%20like%20to%20order%20${encodeURIComponent(product.name)}`}
+                href={`https://wa.me/<YOUR_NUMBER>?text=I%20would%20like%20to%20order%20${encodeURIComponent(
+                  product.name,
+                )}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 bg-green-500 text-white px-5 py-3 rounded-lg shadow-md hover:scale-105 transform transition-all"

@@ -1,11 +1,8 @@
-import React from "react";
 import { Link } from "react-router";
 
 import { useProducts } from "../../context/ProductContext";
 
 export default function ShowcaseGallery() {
-  // Take first 8 products for the gallery
-
   const { products } = useProducts();
   const galleryProducts = products.slice(0, 8);
 
@@ -18,13 +15,13 @@ export default function ShowcaseGallery() {
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
         {galleryProducts.map((product) => (
           <Link
-            to={`product/${product.id}`}
-            key={product.id}
+            to={`product/${product._id}`}
+            key={product._id}
             className="relative overflow-hidden rounded-2xl group cursor-pointer bg-white shadow-md"
           >
             {/* Product Image */}
             <img
-              src={product.image}
+              src={product.images?.[0]}
               alt={product.name}
               className="w-full h-64 object-cover group-hover:scale-110 transition duration-700"
             />

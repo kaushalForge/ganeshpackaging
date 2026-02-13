@@ -26,10 +26,14 @@ export default function Page() {
 
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((p) => (
-              <Link to={`/product/${p.id}`} key={p.id} className="group block">
+              <Link
+                to={`/product/${p._id}`}
+                key={p._id}
+                className="group block"
+              >
                 <div className="overflow-hidden rounded-2xl bg-gray-100">
                   <img
-                    src={p.image}
+                    src={p.images?.[0]}
                     alt={p.name}
                     className="h-56 sm:h-64 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />

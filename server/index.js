@@ -11,7 +11,8 @@ const app = express();
 // ---------- CONFIG ----------
 const ADMIN_ID = process.env.ADMIN_ID;
 const ADMIN_PASS = process.env.ADMIN_PASSWORD;
-const API_URL = process.env.API_URL || "http://localhost:5000"; // your API URL
+const API_URL = process.env.API_URL; // your API URL
+const FRONTEND_URL = process.env.FRONTEND_URL;
 const COOKIE_NAME = "ganeshPackaging";
 const COOKIE_MAX_AGE = 24 * 60 * 60 * 1000; // 1 day
 
@@ -23,21 +24,13 @@ app.use(cookieParser());
 // ---------- CORS ----------
 app.use(
   cors({
-    origin: API_URL, // frontend URL
+    origin: FRONTEND_URL,
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
+  }),
 );
-
-// ---------- PREVENT CACHING ----------
-app.use((req, res, next) => {
-  res.set("Cache-Control", "no-store");
-  next();
-});
 
 // ---------- VIEW ENGINE ----------
 app.set("view engine", "ejs");
-
 // ---------- DATABASE ----------
 dbConnection();
 
@@ -68,12 +61,14 @@ app.get("/", (req, res) => {
 
 // --- LOGIN ---
 app.get("/admin", (req, res) => {
-  if (req.cookies[COOKIE_NAME] === "true") return res.redirect("/admin/dashboard");
+  if (req.cookies[COOKIE_NAME] === "true")
+    return res.redirect("/admin/dashboard");
   res.render("login");
 });
 
 app.get("/admin/login", (req, res) => {
-  if (req.cookies[COOKIE_NAME] === "true") return res.redirect("/admin/dashboard");
+  if (req.cookies[COOKIE_NAME] === "true")
+    return res.redirect("/admin/dashboard");
   res.render("login");
 });
 
@@ -117,7 +112,10 @@ app.post("/admin/add", requireAdmin, async (req, res) => {
 
     let imageArray = [];
     if (Array.isArray(images)) {
-      imageArray = images.map((img) => img.trim()).filter(Boolean).slice(0, 6);
+      imageArray = images
+        .map((img) => img.trim())
+        .filter(Boolean)
+        .slice(0, 6);
     } else if (typeof images === "string" && images.trim()) {
       imageArray = [images.trim()];
     }
@@ -157,7 +155,10 @@ app.post("/admin/edit/:_id", requireAdmin, async (req, res) => {
 
     let imageArray = [];
     if (Array.isArray(images)) {
-      imageArray = images.map((img) => img.trim()).filter(Boolean).slice(0, 6);
+      imageArray = images
+        .map((img) => img.trim())
+        .filter(Boolean)
+        .slice(0, 6);
     } else if (typeof images === "string" && images.trim()) {
       imageArray = [images.trim()];
     }
@@ -170,7 +171,7 @@ app.post("/admin/edit/:_id", requireAdmin, async (req, res) => {
         price: Number(price),
         images: imageArray,
       },
-      { new: true }
+      { new: true },
     );
 
     res.redirect("/admin/dashboard");
@@ -204,7 +205,6 @@ app.get("/api/products/:id", async (req, res) => {
   }
 });
 
-// --- FETCH ALL PRODUCTS API ---
 app.get("/api/products", async (req, res) => {
   try {
     const products = await Product.find({});

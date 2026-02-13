@@ -58,9 +58,9 @@ export default function Footer() {
             <h3 className="font-semibold text-gray-900 mb-4">Categories</h3>
             <ul className="space-y-1 text-gray-600">
               {products.slice(0, 6).map((product) => (
-                <li key={product.id}>
+                <li key={product._id}>
                   <Link
-                    to={`/product/${product.id}`}
+                    to={`/product/${product._id}`}
                     className="hover:text-orange-600 transition"
                   >
                     {product.name}
