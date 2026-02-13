@@ -106,10 +106,12 @@ app.get("/admin/dashboard", requireAdmin, async (req, res) => {
 // --- ADD PRODUCT ---
 app.get("/admin/add", requireAdmin, (req, res) => res.render("add"));
 
+// POST route — fixed to send JSON instead of redirect
 app.post("/admin/add", requireAdmin, async (req, res) => {
   try {
     const { name, description, price, category, images } = req.body;
 
+    // Always make sure images is an array
     let imageArray = [];
     if (Array.isArray(images)) {
       imageArray = images
@@ -124,14 +126,17 @@ app.post("/admin/add", requireAdmin, async (req, res) => {
       name,
       description,
       price: Number(price),
-      category: category || "",
+      category: category || "general",
       images: imageArray,
     });
 
-    res.redirect("/admin/dashboard");
+    // ✅ Send JSON instead of redirect
+    res.status(201).json({ message: "Product added successfully", product });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error adding product");
+    res
+      .status(500)
+      .json({ message: "Error adding product", error: err.message });
   }
 });
 

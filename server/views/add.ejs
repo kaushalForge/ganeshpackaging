@@ -89,50 +89,45 @@
     </div>
   </div>
 
-  <script>
-    // Update preview for each image input
-    function updatePreview(index, value) {
-      const img = document.getElementById(`preview-${index}`);
-      img.src = value || 'https://via.placeholder.com/300x150?text=No+Image';
-    }
+<script>
+  document.getElementById("productForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-    // Submit form
-    document.getElementById("productForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
+    // Collect all image URLs (filter out empty ones)
+    const images = Array.from(document.querySelectorAll('#imageInputsContainer input'))
+                        .map(input => input.value.trim())
+                        .filter(Boolean);
 
-      // Collect all image URLs (filter out empty ones)
-      const images = Array.from(document.querySelectorAll('#imageInputsContainer input'))
-                          .map(input => input.value.trim())
-                          .filter(Boolean);
+    const formData = {
+      name: this.name.value.trim(),
+      description: this.description.value.trim(),
+      price: Number(this.price.value),
+      category: "general",
+      images
+    };
 
-      const formData = {
-        name: this.name.value.trim(),
-        description: this.description.value.trim(),
-        price: Number(this.price.value),
-        category: "general",
-        images
-      };
+    try {
+      // ✅ POST to correct route
+      const res = await fetch("/admin/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
 
-      try {
-        const res = await fetch(`/add`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData)
-        });
+      const data = await res.json();
 
-        const data = await res.json();
-
-        if (res.ok) {
-          window.location.href = "/admin/dashboard";
-        } else {
-          alert(data.message || "Failed to add product");
-        }
-      } catch (err) {
-        alert("Server error");
-        console.error(err);
+      if (res.ok) {
+        // ✅ redirect in frontend
+        window.location.href = "/admin/dashboard";
+      } else {
+        alert(data.message || "Failed to add product");
       }
-    });
-  </script>
+    } catch (err) {
+      alert("Server error");
+      console.error(err);
+    }
+  });
+</script>
 
 </body>
 </html>
