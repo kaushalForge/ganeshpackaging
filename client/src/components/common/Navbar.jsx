@@ -81,7 +81,7 @@ export default function Navbar() {
               {searchResults.map((product) => (
                 <li
                   key={product.id}
-                  onClick={() => goToProduct(product.id)}
+                  onClick={() => goToProduct(product._id)}
                   className="px-4 py-2 hover:bg-orange-100 cursor-pointer"
                 >
                   {product.name}
