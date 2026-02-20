@@ -210,13 +210,13 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
-app.listen(5000, (err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log("Server running at port: 5000");
-  }
-});
+// app.listen(5000, (err) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log("Server running at port: 5000");
+//   }
+// });
 
 // --- EXPORT FOR VERCEL ---
 module.exports = app;
