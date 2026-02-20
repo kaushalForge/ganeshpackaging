@@ -30,9 +30,6 @@ app.use(
 // ---------- VIEW ENGINE ----------
 app.set("view engine", "ejs");
 
-// ---------- DATABASE ----------
-dbConnection();
-
 // ---------- COOKIE REFRESH MIDDLEWARE ----------
 app.use((req, res, next) => {
   if (req.cookies[COOKIE_NAME] === "true") {
@@ -92,6 +89,8 @@ app.post("/admin/logout", (req, res) => {
 // DASHBOARD
 app.get("/admin/dashboard", requireAdmin, async (req, res) => {
   try {
+    // ✅ Connect to DB inside request
+    await dbConnection();
     const products = await Product.find({}).lean();
     const totalProducts = products.length;
     const totalValue = products.reduce((sum, p) => sum + (p.price || 0), 0);
@@ -107,6 +106,7 @@ app.get("/admin/add", requireAdmin, (req, res) => res.render("add"));
 
 app.post("/admin/add", requireAdmin, async (req, res) => {
   try {
+    await dbConnection();
     const { name, description, price, category, images } = req.body;
     let imageArray = [];
     if (Array.isArray(images)) {
@@ -138,6 +138,7 @@ app.post("/admin/add", requireAdmin, async (req, res) => {
 // EDIT PRODUCT
 app.get("/admin/edit/:_id", requireAdmin, async (req, res) => {
   try {
+    await dbConnection();
     const { _id } = req.params;
     const product = await Product.findById(_id).lean();
     if (!product) return res.status(404).send("Product not found");
@@ -150,6 +151,7 @@ app.get("/admin/edit/:_id", requireAdmin, async (req, res) => {
 
 app.post("/admin/edit/:_id", requireAdmin, async (req, res) => {
   try {
+    await dbConnection();
     const { _id } = req.params;
     const { name, description, price, images } = req.body;
     let imageArray = [];
@@ -178,6 +180,7 @@ app.post("/admin/edit/:_id", requireAdmin, async (req, res) => {
 // DELETE PRODUCT
 app.post("/admin/delete/:_id", requireAdmin, async (req, res) => {
   try {
+    await dbConnection();
     const { _id } = req.params;
     await Product.findByIdAndDelete(_id);
     res.redirect("/admin/dashboard");
@@ -190,6 +193,7 @@ app.post("/admin/delete/:_id", requireAdmin, async (req, res) => {
 // API ROUTES
 app.get("/api/products/:id", async (req, res) => {
   try {
+    await dbConnection();
     const product = await Product.findById(req.params.id).lean();
     if (!product) return res.status(404).json({ message: "Product not found" });
     res.json(product);
@@ -201,6 +205,7 @@ app.get("/api/products/:id", async (req, res) => {
 
 app.get("/api/products", async (req, res) => {
   try {
+    await dbConnection();
     const products = await Product.find({}).lean();
     res.json(products);
   } catch (err) {
@@ -209,6 +214,7 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
+// LOCAL SERVER (only for dev)
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => console.log(`Server running locally on port ${PORT}`));
