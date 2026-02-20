@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const axios = require("axios");
 const Product = require("./models/product");
 const dbConnection = require("./utils/db");
 
@@ -11,7 +10,6 @@ const app = express();
 // ---------- CONFIG ----------
 const ADMIN_ID = process.env.ADMIN_ID;
 const ADMIN_PASS = process.env.ADMIN_PASSWORD;
-const API_URL = process.env.API_URL; // your API URL
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const COOKIE_NAME = "ganeshPackaging";
 const COOKIE_MAX_AGE = 24 * 60 * 60 * 1000; // 1 day
@@ -31,6 +29,7 @@ app.use(
 
 // ---------- VIEW ENGINE ----------
 app.set("view engine", "ejs");
+
 // ---------- DATABASE ----------
 dbConnection();
 
@@ -93,12 +92,13 @@ app.post("/admin/logout", (req, res) => {
 // --- DASHBOARD ---
 app.get("/admin/dashboard", requireAdmin, async (req, res) => {
   try {
-    const { data: products } = await axios.get(`${API_URL}/api/products`);
+    // ✅ Directly fetch from DB instead of calling your own API
+    const products = await Product.find({}).lean();
     const totalProducts = products.length;
     const totalValue = products.reduce((sum, p) => sum + (p.price || 0), 0);
     res.render("dashboard", { products, totalProducts, totalValue });
   } catch (err) {
-    console.error(err);
+    console.error("Dashboard Error:", err);
     res.status(500).send("Server error while fetching dashboard.");
   }
 });
@@ -106,12 +106,9 @@ app.get("/admin/dashboard", requireAdmin, async (req, res) => {
 // --- ADD PRODUCT ---
 app.get("/admin/add", requireAdmin, (req, res) => res.render("add"));
 
-// POST route — fixed to send JSON instead of redirect
 app.post("/admin/add", requireAdmin, async (req, res) => {
   try {
     const { name, description, price, category, images } = req.body;
-
-    // Always make sure images is an array
     let imageArray = [];
     if (Array.isArray(images)) {
       imageArray = images
@@ -130,7 +127,6 @@ app.post("/admin/add", requireAdmin, async (req, res) => {
       images: imageArray,
     });
 
-    // ✅ Send JSON instead of redirect
     res.status(201).json({ message: "Product added successfully", product });
   } catch (err) {
     console.error(err);
@@ -144,11 +140,11 @@ app.post("/admin/add", requireAdmin, async (req, res) => {
 app.get("/admin/edit/:_id", requireAdmin, async (req, res) => {
   try {
     const { _id } = req.params;
-    const { data: product } = await axios.get(`${API_URL}/api/products/${_id}`);
+    const product = await Product.findById(_id).lean();
     if (!product) return res.status(404).send("Product not found");
     res.render("edit", { product });
   } catch (err) {
-    console.error(err);
+    console.error("Edit Product Error:", err);
     res.status(500).send("Error fetching product");
   }
 });
@@ -157,7 +153,6 @@ app.post("/admin/edit/:_id", requireAdmin, async (req, res) => {
   try {
     const { _id } = req.params;
     const { name, description, price, images } = req.body;
-
     let imageArray = [];
     if (Array.isArray(images)) {
       imageArray = images
@@ -170,18 +165,13 @@ app.post("/admin/edit/:_id", requireAdmin, async (req, res) => {
 
     await Product.findByIdAndUpdate(
       _id,
-      {
-        name,
-        description,
-        price: Number(price),
-        images: imageArray,
-      },
+      { name, description, price: Number(price), images: imageArray },
       { new: true },
     );
 
     res.redirect("/admin/dashboard");
   } catch (err) {
-    console.error(err);
+    console.error("Update Product Error:", err);
     res.status(500).send("Error updating product");
   }
 });
@@ -193,15 +183,15 @@ app.post("/admin/delete/:_id", requireAdmin, async (req, res) => {
     await Product.findByIdAndDelete(_id);
     res.redirect("/admin/dashboard");
   } catch (err) {
-    console.error(err);
+    console.error("Delete Product Error:", err);
     res.status(500).send("Error deleting product");
   }
 });
 
-// --- FETCH SINGLE PRODUCT API ---
+// --- API ROUTES ---
 app.get("/api/products/:id", async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).lean();
     if (!product) return res.status(404).json({ message: "Product not found" });
     res.json(product);
   } catch (err) {
@@ -212,7 +202,7 @@ app.get("/api/products/:id", async (req, res) => {
 
 app.get("/api/products", async (req, res) => {
   try {
-    const products = await Product.find({});
+    const products = await Product.find({}).lean();
     res.json(products);
   } catch (err) {
     console.error(err);
@@ -220,6 +210,13 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
-// --- SERVER ---
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(5000, (err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("Server running at port: 5000");
+  }
+});
+
+// --- EXPORT FOR VERCEL ---
+module.exports = app;
