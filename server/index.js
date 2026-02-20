@@ -52,13 +52,13 @@ function requireAdmin(req, res, next) {
 
 // ---------- ROUTES ----------
 
-// --- HOME ---
+// HOME
 app.get("/", (req, res) => {
   const isLoggedIn = req.cookies[COOKIE_NAME] === "true";
   res.render("home", { isLoggedIn });
 });
 
-// --- LOGIN ---
+// LOGIN
 app.get("/admin", (req, res) => {
   if (req.cookies[COOKIE_NAME] === "true")
     return res.redirect("/admin/dashboard");
@@ -83,16 +83,15 @@ app.post("/admin/login", (req, res) => {
   res.send("Wrong credentials");
 });
 
-// --- LOGOUT ---
+// LOGOUT
 app.post("/admin/logout", (req, res) => {
   res.clearCookie(COOKIE_NAME);
   res.redirect("/");
 });
 
-// --- DASHBOARD ---
+// DASHBOARD
 app.get("/admin/dashboard", requireAdmin, async (req, res) => {
   try {
-    // ✅ Directly fetch from DB instead of calling your own API
     const products = await Product.find({}).lean();
     const totalProducts = products.length;
     const totalValue = products.reduce((sum, p) => sum + (p.price || 0), 0);
@@ -103,7 +102,7 @@ app.get("/admin/dashboard", requireAdmin, async (req, res) => {
   }
 });
 
-// --- ADD PRODUCT ---
+// ADD PRODUCT
 app.get("/admin/add", requireAdmin, (req, res) => res.render("add"));
 
 app.post("/admin/add", requireAdmin, async (req, res) => {
@@ -129,14 +128,14 @@ app.post("/admin/add", requireAdmin, async (req, res) => {
 
     res.status(201).json({ message: "Product added successfully", product });
   } catch (err) {
-    console.error(err);
+    console.error("Add Product Error:", err);
     res
       .status(500)
       .json({ message: "Error adding product", error: err.message });
   }
 });
 
-// --- EDIT PRODUCT ---
+// EDIT PRODUCT
 app.get("/admin/edit/:_id", requireAdmin, async (req, res) => {
   try {
     const { _id } = req.params;
@@ -176,7 +175,7 @@ app.post("/admin/edit/:_id", requireAdmin, async (req, res) => {
   }
 });
 
-// --- DELETE PRODUCT ---
+// DELETE PRODUCT
 app.post("/admin/delete/:_id", requireAdmin, async (req, res) => {
   try {
     const { _id } = req.params;
@@ -188,14 +187,14 @@ app.post("/admin/delete/:_id", requireAdmin, async (req, res) => {
   }
 });
 
-// --- API ROUTES ---
+// API ROUTES
 app.get("/api/products/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id).lean();
     if (!product) return res.status(404).json({ message: "Product not found" });
     res.json(product);
   } catch (err) {
-    console.error(err);
+    console.error("API Get Product Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -205,18 +204,15 @@ app.get("/api/products", async (req, res) => {
     const products = await Product.find({}).lean();
     res.json(products);
   } catch (err) {
-    console.error(err);
+    console.error("API Get Products Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 });
 
-// app.listen(5000, (err) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log("Server running at port: 5000");
-//   }
-// });
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`Server running locally on port ${PORT}`));
+}
 
-// --- EXPORT FOR VERCEL ---
+// Export for Vercel serverless
 module.exports = app;
