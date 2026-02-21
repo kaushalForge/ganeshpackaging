@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const cookieParser = require("cookie-parser");
 const Product = require("./models/product");
 const dbConnection = require("./utils/db");
@@ -13,22 +14,14 @@ const ADMIN_PASS = process.env.ADMIN_PASSWORD;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const COOKIE_NAME = "ganeshPackaging";
 const COOKIE_MAX_AGE = 24 * 60 * 60 * 1000; // 1 day
-
+const corsOptions = FRONTEND_URL;
 // ---------- MIDDLEWARE ----------
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-// ---------- CORS ----------
-app.use(
-  cors({
-    origin: FRONTEND_URL,
-    credentials: true,
-  }),
-);
-
-// ---------- VIEW ENGINE ----------
-app.set("view engine", "ejs");
 
 // ---------- COOKIE REFRESH MIDDLEWARE ----------
 app.use((req, res, next) => {
@@ -214,11 +207,7 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
-// LOCAL SERVER (only for dev)
-if (process.env.NODE_ENV !== "production") {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => console.log(`Server running locally on port ${PORT}`));
-}
-
-// Export for Vercel serverless
-module.exports = app;
+const PORT = process.env.PORT || 5173;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
